@@ -1,6 +1,6 @@
 import { TareaModel } from "src/app/core/models/TareaModel";
-import { ApiResponse } from "../application/dtos/request/api-response.model";
-import { GestionTareasResponse } from "../application/dtos/response/GestionTareasResponse";
+import { ApiResponse } from "../application/dtos/response/api-response.model";
+import { GestionTareasResponse } from "../application/dtos/response/gestion-tareas-response";
 import { TareaRequest } from "../application/dtos/request/tarea-request.model";
 
 export interface ITareaRepositorio {

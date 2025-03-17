@@ -1,1 +1,253 @@
-<p>tareas works!</p>
+<div class="container-fluid py-4">
+    <!-- Header Actions -->
+    <div class="row mb-4">
+        <div class="col-12 col-md-6 order-2 order-md-1 text-center text-md-start mb-3 mb-md-0">
+            <p-button label="AGREGAR TAREA" icon="pi pi-file-plus" [outlined]="true" severity="success"
+                (click)="cargarModalAgregar()" class="w-100 w-md-auto shadow-sm">
+            </p-button>
+        </div>
+        <div class="col-12 col-md-6 order-1 order-md-2 text-center text-md-end mb-3 mb-md-0">
+            <p-button label="HISTORICO DE TAREAS" icon="pi pi-history" styleClass="p-button-raised" [outlined]="true"
+                severity="help" (onClick)="dialogHistoryTask()" class="w-100 w-md-auto shadow-sm">
+            </p-button>
+        </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <p-table [value]="listTask" styleClass="p-datatable-responsive-demo p-datatable-bordered"
+                    [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [scrollable]="true"
+                    scrollHeight="calc(100vh - 300px)" [resizableColumns]="true" responsiveLayout="stack"
+                    [breakpoint]="'960px'" class="task-table"
+                    [globalFilterFields]="['nTarea', 'titulo', 'descripcion', 'vencimiento','prioridad','estado']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="text-nowrap border-bottom">
+                                N° TAREA
+                                <p-columnFilter type="text" field="nTarea" display="menu"
+                                    placeholder="Filtrar Por N° Tareas"></p-columnFilter>
+                            </th>
+                            <th class="text-nowrap border-bottom">
+                                TITULO
+                                <p-columnFilter type="text" field="titulo" display="menu"></p-columnFilter>
+                            </th>
+                            <th class="border-bottom">
+                                DESCRIPCION
+                                <p-columnFilter type="text" field="descripcion" display="menu"></p-columnFilter>
+                            </th>
+                            <th class="text-nowrap border-bottom">
+                                VENCIMIENTO
+                                <p-columnFilter type="text" field="vencimiento" display="menu"></p-columnFilter>
+                            </th>
+                            <th class="border-bottom">
+                                PRIORIDAD
+                                <p-columnFilter type="text" field="prioridad" display="menu"></p-columnFilter>
+                            </th>
+                            <th class="border-bottom">
+                                ESTADO
+                                <p-columnFilter type="text" field="estado" display="menu"></p-columnFilter>
+                            </th>
+                            <th class="text-nowrap border-bottom">
+                                ACCIONES
+                            </th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-task>
+                        <tr class="border-bottom">
+                            <td>
+                                {{ task.idTarea }}
+                            </td>
+                            <td>
+                                {{ task.tituloTarea }}
+                            </td>
+                            <td>
+                                {{ task.descripcionTarea }}
+                            </td>
+                            <td>
+                                {{task.fechaVencimiento | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                <p-tag [value]="task.prioridad.nombre" [severity]="task.prioridad.id"></p-tag>
+                            </td>
+                            <td>
+                                <p-tag [value]="task.estado.nombre" [severity]="task.estado.severity"></p-tag>
+
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2 flex-wrap justify-content-center align-content-center">
+                                    <p-button icon="pi pi-pen-to-square" label="EDITAR" [outlined]="true"
+                                        severity="warning" (click)="cargarModalEditar(task)"
+                                        class="mb-2 mb-md-0 action-button">
+                                    </p-button>
+                                    <p-button icon="pi pi-trash" label="ELIMINAR" [outlined]="true" severity="danger"
+                                        (click)="idEliminar=task.idTarea;showDelete=true" class="action-button">
+                                    </p-button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="summary">
+                        <div class="text-center text-md-start p-3 border-top">
+                            Un total de {{listTask ? listTask.length : 0 }} Tareas
+                        </div>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL ELIMINAR-->
+<p-dialog header="¿Eliminar registro?" [(visible)]="showDelete" *ngIf="showDelete" [style]="{width: '50vw'}"
+    [modal]="true" [draggable]="false" [resizable]="false">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                Esta acción eliminará permanentemente el registro del sistema.
+            </div>
+            <div class="col-12 mt-3 text-end">
+                <p-button label="Cancelar" [outlined]="true" severity="secondary" (click)="showDelete=false"></p-button>
+                &nbsp;&nbsp;
+                <p-button label="Eliminar" [raised]="true" severity="danger"
+                    (click)="deleteTask(idEliminar)"></p-button>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+
+<p-dialog *ngIf="showHistoryTask" header="HISTORICO DE TAREAS" [modal]="true" [(visible)]="showHistoryTask"
+    [style]="{ width: '90rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false"
+    [resizable]="false" [position]="'top'">
+    <div class="w-full">
+        <p-table [tableStyle]="{ 'width': '100%' }" [value]="listHistoryTask"
+            styleClass="p-datatable-gridlines custom-table">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>N° TAREA</th>
+                    <th>TITULO DE LA TAREA</th>
+                    <th>DESCRIPCION DE TAREA</th>
+                    <th>FECHA DE VENCIMIENTO</th>
+                    <th>PRIORIDAD</th>
+                    <th>ESTADO DE TAREA</th>
+                    <th>RESTAURAR</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-task>
+                <tr>
+                    <td>{{ task.tarea.id }}</td>
+                    <td>{{ task.tarea.titulo }}</td>
+                    <td>{{ task.tarea.descripcion}}</td>
+                    <td>{{task.tarea.fechaVencimiento| date:'dd/MM/yyyy'}}</td>
+                    <td>
+                        <p-tag [value]="getNombrePrioridad(task.tarea.idPrioridad)" [severity]="getSeverityPrioridad(task.tarea.idPrioridad)"></p-tag>
+                    </td>
+                    <td>
+                        <p-tag [value]="getNombreEstado(task.tarea.idEstado)" [severity]="getSeverityEstado(task.tarea.idEstado)"></p-tag>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</p-dialog>
+
+
+<!--
+<p-dialog [contentStyle]="{'overflow': 'auto', 'padding': '0'}" styleClass="element-form custom-dialog" *ngIf="showTask" [header]="actionEditarCrud ? 'EDITAR TAREA' : 'AGREGAR TAREA'" [modal]="true" [(visible)]="showTask" [style]="{ width: '32rem' }"
+    [draggable]="false" [resizable]="false" [position]="'top'">
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+        <div class="container-fluid w-full container-modal">
+            <div class="row">
+                <div class="col-12">
+                    <label htmlFor="titulo">Título</label>
+                    <input pInputText type="text" id="titulo" formControlName="titulo" class="p-inputtext-sm" placeholder="Título" [style]="{ width: '450px' }" />
+                    <small class="p-error" *ngIf="taskForm.get('titulo')?.invalid && taskForm.get('titulo')?.touched">
+                        El título es requerido
+                    </small>
+                </div>
+
+                <div class="col-12">
+                    <label htmlFor="descripcion">Descripción</label>
+                    <textarea rows="5" cols="30" formControlName="descripcion" pInputTextarea [style]="{ width: '450px' }"></textarea>
+                    <small class="p-error" *ngIf="taskForm.get('descripcion')?.invalid && taskForm.get('descripcion')?.touched">
+                        La descripción es requerida
+                    </small>
+                </div>
+
+                <div class="col-12">
+                    <label htmlFor="fechaVencimiento">Fecha de Vencimiento</label>
+                    <p-calendar formControlName="fechaVencimiento" styleClass="element-form" [style]="{ width: '450px' }" appendTo="body" placeholder="Seleccione una fecha"></p-calendar>
+                    <small class="p-error" *ngIf="taskForm.get('fechaVencimiento')?.invalid && taskForm.get('fechaVencimiento')?.touched">
+                        La fecha de vencimiento es requerida
+                    </small>
+                </div>
+
+                <div class="col-12">
+                    <label htmlFor="prioridad">Prioridad</label>
+                    <p-dropdown [formGroup]="taskForm" formControlName="prioridad" [options]="listPrioridades" [(ngModel)]="selectedPrioridad.id" optionLabel="nombre" optionValue="id" [filter]="true" filterBy="nombre" [showClear]="true" placeholder="Seleccione la prioridad"
+                        appendTo="body" [style]="{ width: '450px' }" [autoDisplayFirst]="false">
+
+                     
+                        <ng-template pTemplate="selectedItem" let-prioridad>
+                            <div class="flex align-items-center" *ngIf="prioridad?.nombre">
+                                <p-tag [severity]="prioridad.id === 3 ? 'danger' : prioridad.id === 2 ? 'warning' : 'success'" [value]="prioridad.nombre">
+                                </p-tag>
+                            </div>
+                        </ng-template>
+
+                     
+                        <ng-template let-prioridad pTemplate="item">
+                            <div class="flex align-items-center" *ngIf="prioridad?.nombre">
+                                <p-tag [severity]="prioridad.id === 3 ? 'danger' : prioridad.id === 2 ? 'warning' : 'success'" [value]="prioridad.nombre">
+                                </p-tag>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                    <small class="p-error" *ngIf="taskForm.get('prioridad')?.invalid && taskForm.get('prioridad')?.touched">
+                        La prioridad es requerida
+                    </small>
+                </div>
+                <div class="col-12">
+                    <label htmlFor="estado">Estado</label>
+                    <p-dropdown [formGroup]="taskForm" formControlName="estado" [options]="listEstados" [(ngModel)]="selectedEstado.id" optionLabel="nombre" optionValue="id" [filter]="true" filterBy="nombre" [showClear]="true" placeholder="Seleccione el estado" appendTo="body"
+                        [style]="{ width: '450px' }" [autoDisplayFirst]="false">
+
+                     
+                        <ng-template pTemplate="selectedItem" let-estado>
+                            <div class="flex align-items-center" *ngIf="estado?.nombre">
+                                <p-tag [severity]="getSeverity(estado.id)" [value]="estado.nombre">
+                                </p-tag>
+                            </div>
+                        </ng-template>
+
+                     
+                        <ng-template let-estado pTemplate="item">
+                            <div class="flex align-items-center" *ngIf="estado?.nombre">
+                                <p-tag [severity]="getSeverity(estado.id)" [value]="estado.nombre">
+                                </p-tag>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+
+                    <small class="p-error" *ngIf="taskForm.get('estado')?.invalid && taskForm.get('estado')?.touched">
+                        El estado es requerido
+                    </small>
+
+                </div>
+                <div class="col-12 d-flex flex-row" style="gap: 10px;">
+                    <p-button type="button" (click)="onCancel()" label="Cancelar" [outlined]="true" severity="secondary"></p-button>
+                    <p-button type="submit" [label]="actionEditarCrud ? 'Editar' : 'Guardar'" [raised]="true" [severity]="actionEditarCrud ? 'warning' : 'success'" [disabled]="!taskForm.valid">
+                    </p-button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</p-dialog>
+-->

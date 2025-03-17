@@ -1,9 +1,9 @@
 import { firstValueFrom } from "rxjs";
-import { ApiResponse } from "../../application/dtos/request/api-response.model";
+import { ApiResponse } from "../../application/dtos/response/api-response.model";
 import { TareaRequest } from "../../application/dtos/request/tarea-request.model";
 import { ITareaRepositorio } from "../../domain/ITareaRepository";
 import { TareaModel } from "src/app/core/models/TareaModel";
-import { GestionTareasResponse } from "../../application/dtos/response/GestionTareasResponse";
+import { GestionTareasResponse } from "../../application/dtos/response/gestion-tareas-response";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/app/environments/environment";
@@ -12,19 +12,19 @@ import { environment } from "src/app/environments/environment";
     providedIn: 'root'
 })
 export class TareaRepositorio implements ITareaRepositorio {
-    private apiUrl = `${environment.apiUrl}/tareas`;
+    private apiUrl = `${environment.apiUrl}/Tareas`;
 
     constructor(private http: HttpClient) { }
 
     async gestionTareas(): Promise<ApiResponse<GestionTareasResponse[]>> {
         return firstValueFrom(
-            this.http.get<ApiResponse<GestionTareasResponse[]>>(`${this.apiUrl}/gestion`)
+            this.http.get<ApiResponse<GestionTareasResponse[]>>(`${this.apiUrl}/getAllGestionTareas`)
         );
     }
 
     async gestionHistoricoTareas(): Promise<ApiResponse<GestionTareasResponse[]>> {
         return firstValueFrom(
-            this.http.get<ApiResponse<GestionTareasResponse[]>>(`${this.apiUrl}/historico`)
+            this.http.get<ApiResponse<GestionTareasResponse[]>>(`${this.apiUrl}/getAllAuditoria`)
         );
     }
 

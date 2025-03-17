@@ -1,0 +1,123 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|c:\\users\\usuario\\documents\\github\\gestiontareas\\backend\\gestion-tareas\\gestion-tareas\\dbcontext\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|solutionrelative:gestion-tareas\\dbcontext\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|c:\\users\\usuario\\documents\\github\\gestiontareas\\backend\\gestion-tareas\\gestion-tareas\\models\\prioridad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|solutionrelative:gestion-tareas\\models\\prioridad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|c:\\users\\usuario\\documents\\github\\gestiontareas\\backend\\gestion-tareas\\gestion-tareas\\models\\estado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|solutionrelative:gestion-tareas\\models\\estado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|c:\\users\\usuario\\documents\\github\\gestiontareas\\backend\\gestion-tareas\\gestion-tareas\\models\\tarea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|solutionrelative:gestion-tareas\\models\\tarea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|c:\\users\\usuario\\documents\\github\\gestiontareas\\backend\\gestion-tareas\\gestion-tareas\\controllers\\tareascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|solutionrelative:gestion-tareas\\controllers\\tareascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|c:\\users\\usuario\\documents\\github\\gestiontareas\\backend\\gestion-tareas\\gestion-tareas\\repository\\implementations\\tarearepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A80DC1-468F-4448-ABEB-965A0A5A6DE5}|gestion-tareas\\gestion-tareas.csproj|solutionrelative:gestion-tareas\\repository\\implementations\\tarearepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DbContext.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\DBContext\\DbContext.cs",
+              "RelativeDocumentMoniker": "gestion-tareas\\DBContext\\DbContext.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\DBContext\\DbContext.cs",
+              "RelativeToolTip": "gestion-tareas\\DBContext\\DbContext.cs",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAAACoAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-16T02:08:19.648Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Prioridad.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Models\\Prioridad.cs",
+              "RelativeDocumentMoniker": "gestion-tareas\\Models\\Prioridad.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Models\\Prioridad.cs",
+              "RelativeToolTip": "gestion-tareas\\Models\\Prioridad.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-16T21:06:18.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Tarea.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Models\\Tarea.cs",
+              "RelativeDocumentMoniker": "gestion-tareas\\Models\\Tarea.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Models\\Tarea.cs",
+              "RelativeToolTip": "gestion-tareas\\Models\\Tarea.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-16T21:06:17.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Estado.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Models\\Estado.cs",
+              "RelativeDocumentMoniker": "gestion-tareas\\Models\\Estado.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Models\\Estado.cs",
+              "RelativeToolTip": "gestion-tareas\\Models\\Estado.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-16T21:05:43.783Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TareaRepository.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Repository\\Implementations\\TareaRepository.cs",
+              "RelativeDocumentMoniker": "gestion-tareas\\Repository\\Implementations\\TareaRepository.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Repository\\Implementations\\TareaRepository.cs",
+              "RelativeToolTip": "gestion-tareas\\Repository\\Implementations\\TareaRepository.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAiwCUAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-16T00:49:48.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TareasController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Controllers\\TareasController.cs",
+              "RelativeDocumentMoniker": "gestion-tareas\\Controllers\\TareasController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\Github\\GestionTareas\\Backend\\gestion-tareas\\gestion-tareas\\Controllers\\TareasController.cs",
+              "RelativeToolTip": "gestion-tareas\\Controllers\\TareasController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBsAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T23:28:59.669Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
