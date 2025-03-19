@@ -5,7 +5,7 @@ import { PaginaPrincipalComponent } from './presentation/pages/pagina-principal/
 import { TareasComponent } from './presentation/components/tareas/tareas.component';
 import { TareasRoutingModule } from './tareas-routing.module';
 import { MessagesModule } from 'primeng/messages';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 import { TableModule } from 'primeng/table';
@@ -19,7 +19,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CalendarModule } from 'primeng/calendar';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 
 @NgModule({
   declarations: [
@@ -46,9 +47,10 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     HttpClientModule,
     ToolbarModule,
     CalendarModule,
-    FormsModule
+    FormsModule,
+    ConfirmDialogModule
     
   ],
-  providers: [MessageService]
+  providers: [ConfirmationService, MessageService]
 })
 export class TareasModule { }

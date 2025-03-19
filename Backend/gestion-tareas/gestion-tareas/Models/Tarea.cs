@@ -5,6 +5,7 @@
         public int? Id { get; set; }
         public string? titulo { get; set; }
         public string? descripcion { get; set; }
+        public string? estado { get; set; }
         public int? idEstado { get; set; }
         public int? idPrioridad { get; set; }
         public DateTime? fechaVencimiento { get; set; }

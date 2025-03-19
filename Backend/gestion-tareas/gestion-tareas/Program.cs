@@ -3,6 +3,7 @@
 using gestion_tareas.DBContext;
 using gestion_tareas.Repository.Implementations;
 using gestion_tareas.Repository.Interfaces;
+using gestion_tareas.Service;
 using gestion_tareas.Service.Implementations;
 using gestion_tareas.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,8 @@ builder.Services.AddScoped<IReferenceRepository, ReferenceRepository>();
 builder.Services.AddScoped<IReferenceService, ReferenceService>();
 builder.Services.AddScoped<ITareaRepository, TareaRepository>();
 builder.Services.AddScoped<ITareaService, TareaService>();
+builder.Services.AddScoped<ValidationService>();
+
 
 var app = builder.Build();
 

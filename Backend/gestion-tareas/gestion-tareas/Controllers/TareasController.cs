@@ -1,4 +1,5 @@
-﻿using gestion_tareas.DTOs.Response;
+﻿using gestion_tareas.DTOs.Request;
+using gestion_tareas.DTOs.Response;
 using gestion_tareas.Models;
 using gestion_tareas.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,28 +18,42 @@ namespace gestion_tareas.Controllers
             _tareaService = tareaService;
         }
 
+        [HttpGet("getAllHistorico")]
+        public IActionResult getAllHistorico()
+        {
+            var response = _tareaService.getAllHistorico();
+            return StatusCode(response.Meta?.StatusCode ?? 200, response);
+        }
 
         [HttpGet("getAllGestionTareas")]
-        public async Task<ActionResult<ApiResponse<List<GestionTareasResponse>>>> getAllGestionTareas()
+        public IActionResult GetGestionTareas()
         {
-            ApiResponse<List<GestionTareasResponse>> response = _tareaService.getAllGestionTareas();
+            var response = _tareaService.getAllGestionTareas();
+            return StatusCode(response.Meta?.StatusCode ?? 200, response);
+        }
+
+        [HttpPost("insertUpdate")]
+        public  IActionResult saveUpdateTask([FromBody] TareaRequest request)
+        {
+            ApiResponse<String> response = _tareaService.saveUpdateTask(request);
             return StatusCode(response.Meta.StatusCode ?? 200, response);
         }
 
-        [HttpGet("getAllAuditoria")]
-        public async Task<ActionResult<ApiResponse<List<TareaXAuditoria>>>> gestionHistoricoTareas()
+        [HttpPut("inactivate/{id}")]
+        public IActionResult inactivarTask(int id)
         {
-            ApiResponse<List<TareaXAuditoria>> response = _tareaService.gestionHistoricoTareas();
+            ApiResponse<String> response = _tareaService.inactivateById(id);
+            return StatusCode(response.Meta.StatusCode ?? 200, response);
+        }
+
+        [HttpPut("activate")]
+        public IActionResult inactivarTask([FromBody] TareaRequest request)
+        {
+            ApiResponse<String> response = _tareaService.activateTaskById(request);
             return StatusCode(response.Meta.StatusCode ?? 200, response);
         }
 
 
 
-
-        [HttpGet]
-        public ActionResult<string> Get()
-        {
-            return "¡Hola Mundo!";
-        }
     }
 }

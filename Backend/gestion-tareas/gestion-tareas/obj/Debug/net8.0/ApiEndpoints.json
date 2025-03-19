@@ -41,63 +41,71 @@
   },
   {
     "ContainingType": "gestion_tareas.Controllers.TareasController",
-    "Method": "Get",
-    "RelativePath": "api/Tareas",
-    "HttpMethod": "GET",
+    "Method": "inactivarTask",
+    "RelativePath": "api/Tareas/activate",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
+    "Parameters": [
       {
-        "Type": "System.String",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "request",
+        "Type": "gestion_tareas.DTOs.Request.TareaRequest",
+        "IsRequired": true
       }
-    ]
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "gestion_tareas.Controllers.TareasController",
-    "Method": "gestionHistoricoTareas",
-    "RelativePath": "api/Tareas/getAllAuditoria",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "gestion_tareas.DTOs.Response.ApiResponse\u00601[[System.Collections.Generic.List\u00601[[gestion_tareas.Models.TareaXAuditoria, gestion-tareas, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "gestion_tareas.Controllers.TareasController",
-    "Method": "getAllGestionTareas",
+    "Method": "GetGestionTareas",
     "RelativePath": "api/Tareas/getAllGestionTareas",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "gestion_tareas.Controllers.TareasController",
+    "Method": "getAllHistorico",
+    "RelativePath": "api/Tareas/getAllHistorico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "gestion_tareas.Controllers.TareasController",
+    "Method": "inactivarTask",
+    "RelativePath": "api/Tareas/inactivate/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "gestion_tareas.DTOs.Response.ApiResponse\u00601[[System.Collections.Generic.List\u00601[[gestion_tareas.DTOs.Response.GestionTareasResponse, gestion-tareas, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
-    ]
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "gestion_tareas.Controllers.TareasController",
+    "Method": "saveUpdateTask",
+    "RelativePath": "api/Tareas/insertUpdate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "gestion_tareas.DTOs.Request.TareaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "gestion_tareas.Controllers.WeatherForecastController",

@@ -22,23 +22,12 @@ export class TareaRepositorio implements ITareaRepositorio {
         );
     }
 
-    async gestionHistoricoTareas(): Promise<ApiResponse<GestionTareasResponse[]>> {
+    async getAllHistorico(): Promise<ApiResponse<GestionTareasResponse[]>> {
         return firstValueFrom(
-            this.http.get<ApiResponse<GestionTareasResponse[]>>(`${this.apiUrl}/getAllAuditoria`)
+            this.http.get<ApiResponse<GestionTareasResponse[]>>(`${this.apiUrl}/getAllHistorico`)
         );
     }
 
-    async findAll(): Promise<ApiResponse<TareaModel[]>> {
-        return firstValueFrom(
-            this.http.get<ApiResponse<TareaModel[]>>(this.apiUrl)
-        );
-    }
-
-    async findById(id: number): Promise<ApiResponse<TareaModel>> {
-        return firstValueFrom(
-            this.http.get<ApiResponse<TareaModel>>(`${this.apiUrl}/${id}`)
-        );
-    }
 
     async inactivateById(id: number): Promise<ApiResponse<string>> {
         return firstValueFrom(
@@ -46,30 +35,15 @@ export class TareaRepositorio implements ITareaRepositorio {
         );
     }
 
-    async activarById(id: number, idEstado: number): Promise<ApiResponse<string>> {
+    async activarById(tareaRequest: TareaRequest): Promise<ApiResponse<string>> {
         return firstValueFrom(
-            this.http.put<ApiResponse<string>>(`${this.apiUrl}/activate/${id}`, { idEstado })
+            this.http.put<ApiResponse<string>>(`${this.apiUrl}/activate`, tareaRequest)
         );
     }
 
     async insert(tareaRequest: TareaRequest): Promise<ApiResponse<string>> {
         return firstValueFrom(
-            this.http.post<ApiResponse<string>>(this.apiUrl, tareaRequest)
+            this.http.post<ApiResponse<string>>(`${this.apiUrl}/insertUpdate`, tareaRequest)
         );
-    }
-
-    async update(tareaRequest: TareaRequest): Promise<ApiResponse<string>> {
-        return firstValueFrom(
-            this.http.put<ApiResponse<string>>(`${this.apiUrl}/${tareaRequest.id}`, tareaRequest)
-        );
-    }
-
-    saveAuditoria(idTarea: number, idEstado: number, idPrioridad: number, tipoAuditoria: string): void {
-        this.http.post(`${this.apiUrl}/auditoria`, {
-            idTarea,
-            idEstado,
-            idPrioridad,
-            tipoAuditoria
-        }).subscribe();
     }
 }

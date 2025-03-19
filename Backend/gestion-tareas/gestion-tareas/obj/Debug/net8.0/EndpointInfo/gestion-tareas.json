@@ -63,6 +63,18 @@
         }
       }
     },
+    "/api/Tareas/getAllHistorico": {
+      "get": {
+        "tags": [
+          "Tareas"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Tareas/getAllGestionTareas": {
       "get": {
         "tags": [
@@ -70,82 +82,92 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GestionTareasResponseListApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GestionTareasResponseListApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GestionTareasResponseListApiResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     },
-    "/api/Tareas/getAllAuditoria": {
-      "get": {
+    "/api/Tareas/insertUpdate": {
+      "post": {
         "tags": [
           "Tareas"
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/TareaXAuditoriaListApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TareaXAuditoriaListApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TareaXAuditoriaListApiResponse"
-                }
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TareaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TareaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TareaRequest"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
-    "/api/Tareas": {
-      "get": {
+    "/api/Tareas/inactivate/{id}": {
+      "put": {
         "tags": [
           "Tareas"
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Tareas/activate": {
+      "put": {
+        "tags": [
+          "Tareas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TareaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TareaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TareaRequest"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -192,30 +214,6 @@
   },
   "components": {
     "schemas": {
-      "Auditoria": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "accion": {
-            "type": "string",
-            "nullable": true
-          },
-          "createAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "creadoPor": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "ErrorDetails": {
         "type": "object",
         "properties": {
@@ -263,65 +261,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Estado"
-            },
-            "nullable": true
-          },
-          "error": {
-            "$ref": "#/components/schemas/ErrorDetails"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GestionTareasResponse": {
-        "type": "object",
-        "properties": {
-          "idTarea": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "tituloTarea": {
-            "type": "string",
-            "nullable": true
-          },
-          "descripcionTarea": {
-            "type": "string",
-            "nullable": true
-          },
-          "fechaVencimiento": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "estado": {
-            "$ref": "#/components/schemas/Estado"
-          },
-          "prioridad": {
-            "$ref": "#/components/schemas/Prioridad"
-          },
-          "createAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "updateAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GestionTareasResponseListApiResponse": {
-        "type": "object",
-        "properties": {
-          "meta": {
-            "$ref": "#/components/schemas/Meta"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GestionTareasResponse"
             },
             "nullable": true
           },
@@ -388,7 +327,13 @@
         },
         "additionalProperties": false
       },
-      "Tarea": {
+      "TareaRequest": {
+        "required": [
+          "fechaVencimiento",
+          "idEstado",
+          "idPrioridad",
+          "titulo"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -397,27 +342,35 @@
             "nullable": true
           },
           "titulo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "estado": {
             "type": "string",
             "nullable": true
           },
           "descripcion": {
+            "maxLength": 500,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
           "idEstado": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "idPrioridad": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "fechaVencimiento": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date"
           },
           "create_at": {
             "type": "string",
@@ -428,47 +381,6 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TareaXAuditoria": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "auditoria": {
-            "$ref": "#/components/schemas/Auditoria"
-          },
-          "tarea": {
-            "$ref": "#/components/schemas/Tarea"
-          },
-          "create_at": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TareaXAuditoriaListApiResponse": {
-        "type": "object",
-        "properties": {
-          "meta": {
-            "$ref": "#/components/schemas/Meta"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TareaXAuditoria"
-            },
-            "nullable": true
-          },
-          "error": {
-            "$ref": "#/components/schemas/ErrorDetails"
           }
         },
         "additionalProperties": false

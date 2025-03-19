@@ -4,6 +4,7 @@ using gestion_tareas.DTOs.Response;
 using gestion_tareas.Models;
 using gestion_tareas.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 
 namespace gestion_tareas.Repository.Implementations
@@ -19,55 +20,21 @@ namespace gestion_tareas.Repository.Implementations
         }
 
 
-        public Task<int> ActivarByIdAsync(int id, int idEstado)
+        public int ActivarTask(TareaRequest tareaRequest)
         {
-            throw new NotImplementedException();
+            /*var tarea = _context.Tarea.Find(id);
+            if (tarea == null)
+            {
+                return 0;
+            }*/
+            tareaRequest.estado = "A";
+            tareaRequest.idEstado = 1;
+            tareaRequest.update_at = DateTime.Now;
+            _context.SaveChanges();
+            return 1;
         }
 
-        public Task<List<Tarea>> FindAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Tarea> FindByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public Task<List<TareaXAuditoria>> GestionHistoricoTareasAsync()
-        {
-            return _context.Tarea
-                .Join(_context.TareaXAuditoria,
-                    t => t.Id,
-                    ta => ta.Tarea.Id,
-                    (t, ta) => new { Tarea = t, TareaAuditoria = ta })
-                .Join(_context.Auditoria,
-                    tta => tta.TareaAuditoria.Auditoria.Id,
-                    a => a.Id,
-                    (tta, a) => new { tta.Tarea, tta.TareaAuditoria, Auditoria = a })
-                .Join(_context.Estado,
-                    ttaa => ttaa.Tarea.idEstado,
-                    e => e.Id,
-                    (ttaa, e) => new { ttaa.Tarea, ttaa.TareaAuditoria, ttaa.Auditoria, Estado = e })
-                .Join(_context.Prioridad,
-                    ttaae => ttaae.Tarea.idPrioridad,
-                    p => p.Id,
-                    (ttaae, p) => new TareaXAuditoria
-                    {
-                        Id = ttaae.TareaAuditoria.Id,
-                        Tarea = ttaae.Tarea,
-                        Auditoria = ttaae.Auditoria,
-                        create_at = ttaae.TareaAuditoria.create_at
-                    })
-                .OrderBy(r => r.Tarea.Id)
-                .ThenByDescending(r => r.Auditoria.CreateAt)
-                .ToListAsync();
-        }
-
-
-
-        public Task<List<GestionTareasResponse>> GestionTareasAsync()
+        public List<GestionTareasResponse> getAllHistorico()
         {
             return _context.Tarea
                      .Join(_context.Estado,
@@ -86,25 +53,68 @@ namespace gestion_tareas.Repository.Implementations
                              estado = te.Estado,
                              prioridad = p,
                              createAt = te.Tarea.create_at,
-                             updateAt = te.Tarea.update_at
+                             updateAt = te.Tarea.update_at,
+                             estadoTarea = te.Tarea.estado,
                          })
-                     .Where(r => r.estado.Id != 4)
-                     .ToListAsync();
+                     .Where(r => r.estadoTarea == "I" || r.estado.Id == 3)
+                     .ToList();
         }
 
-        public Task<int> InactivateByIdAsync(int id)
+
+
+        public List<GestionTareasResponse> getAllTareas()
         {
-            throw new NotImplementedException();
+            return _context.Tarea
+                     .Join(_context.Estado,
+                         t => t.idEstado,
+                         e => e.Id,
+                         (t, e) => new { Tarea = t, Estado = e })
+                     .Join(_context.Prioridad,
+                         te => te.Tarea.idPrioridad,
+                         p => p.Id,
+                         (te, p) => new GestionTareasResponse
+                         {
+                             idTarea = te.Tarea.Id,
+                             tituloTarea = te.Tarea.titulo,
+                             descripcionTarea = te.Tarea.descripcion,
+                             fechaVencimiento = te.Tarea.fechaVencimiento,
+                             estado = te.Estado,
+                             prioridad = p,
+                             createAt = te.Tarea.create_at,
+                             updateAt = te.Tarea.update_at,
+                             estadoTarea = te.Tarea.estado,
+                         })
+                     .Where(r => r.estadoTarea == "A" && r.estado.Id != 3)
+                     .ToList();
         }
 
-        public Task<int> InsertAsync(TareaRequest tareaRequest)
+        public int InactivarTask(int id)
         {
-            throw new NotImplementedException();
+            var tarea = _context.Tarea.Find(id);
+            if (tarea == null)
+            {
+                return 0;
+            }
+            tarea.estado = "I";
+            tarea.update_at = DateTime.Now;
+            _context.SaveChanges();
+            return 1;
         }
 
-        public Task<int> UpdateAsync(TareaRequest tareaRequest)
+        public int InsertTask(Tarea tarea)
         {
-            throw new NotImplementedException();
+            _context.Tarea.Add(tarea);
+            _context.SaveChanges();
+            return tarea.Id ?? 0;
         }
+
+
+        public int UpdateTask(Tarea tarea)
+        {
+            _context.Entry(tarea).State = EntityState.Modified;
+            _context.SaveChanges();
+            return tarea.Id ?? 0;
+        }
+
     }
 }

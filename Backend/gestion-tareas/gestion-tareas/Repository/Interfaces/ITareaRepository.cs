@@ -6,13 +6,12 @@ namespace gestion_tareas.Repository.Interfaces
 {
     public interface ITareaRepository
     {
-        Task<List<GestionTareasResponse>> GestionTareasAsync();
-        Task<List<TareaXAuditoria>> GestionHistoricoTareasAsync();
-        Task<List<Tarea>> FindAllAsync();
-        Task<Tarea> FindByIdAsync(int id);
-        Task<int> InsertAsync(TareaRequest tareaRequest);
-        Task<int> UpdateAsync(TareaRequest tareaRequest);
-        Task<int> InactivateByIdAsync(int id);
-        Task<int> ActivarByIdAsync(int id, int idEstado);
+        List<GestionTareasResponse> getAllTareas();
+        public List<GestionTareasResponse> getAllHistorico();
+
+        int InsertTask(Tarea tarea);
+        int UpdateTask(Tarea tarea);
+        int InactivarTask(int id);
+        int ActivarTask(TareaRequest tareaRequest);
     }
 }

@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm">
-                <p-table [value]="listTask" styleClass="p-datatable-responsive-demo p-datatable-bordered"
+                <p-table [value]="listTask" styleClass="custom-table"
                     [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [scrollable]="true"
                     scrollHeight="calc(100vh - 300px)" [resizableColumns]="true" responsiveLayout="stack"
                     [breakpoint]="'960px'" class="task-table"
@@ -71,7 +71,7 @@
                                 {{task.fechaVencimiento | date:'dd/MM/yyyy'}}
                             </td>
                             <td>
-                                <p-tag [value]="task.prioridad.nombre" [severity]="task.prioridad.id"></p-tag>
+                                <p-tag [value]="task.prioridad.nombre" [severity]="task.prioridad.severity"></p-tag>
                             </td>
                             <td>
                                 <p-tag [value]="task.estado.nombre" [severity]="task.estado.severity"></p-tag>
@@ -79,13 +79,11 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2 flex-wrap justify-content-center align-content-center">
-                                    <p-button icon="pi pi-pen-to-square" label="EDITAR" [outlined]="true"
-                                        severity="warning" (click)="cargarModalEditar(task)"
-                                        class="mb-2 mb-md-0 action-button">
+                                    <p-button icon="pi pi-pen-to-square" [outlined]="true" severity="warning"
+                                        (click)="cargarModalEditar(task)" class="mb-2 mb-md-0 action-button">
                                     </p-button>
-                                    <p-button icon="pi pi-trash" label="ELIMINAR" [outlined]="true" severity="danger"
-                                        (click)="idEliminar=task.idTarea;showDelete=true" class="action-button">
-                                    </p-button>
+                                    <p-button icon="pi pi-trash" (onClick)="confirmarDelete(task)" severity="danger"
+                                        [outlined]="true" />
                                 </div>
                             </td>
                         </tr>
@@ -101,6 +99,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 
 <!--MODAL ELIMINAR-->
@@ -127,7 +128,7 @@
     [resizable]="false" [position]="'top'">
     <div class="w-full">
         <p-table [tableStyle]="{ 'width': '100%' }" [value]="listHistoryTask"
-            styleClass="p-datatable-gridlines custom-table">
+        styleClass="custom-table">
             <ng-template pTemplate="header">
                 <tr>
                     <th>N° TAREA</th>
@@ -141,15 +142,18 @@
             </ng-template>
             <ng-template pTemplate="body" let-task>
                 <tr>
-                    <td>{{ task.tarea.id }}</td>
-                    <td>{{ task.tarea.titulo }}</td>
-                    <td>{{ task.tarea.descripcion}}</td>
-                    <td>{{task.tarea.fechaVencimiento| date:'dd/MM/yyyy'}}</td>
+                    <td>{{ task.idTarea }}</td>
+                    <td> {{ task.tituloTarea }}</td>
+                    <td> {{ task.descripcionTarea }}</td>
+                    <td> {{task.fechaVencimiento | date:'dd/MM/yyyy'}}</td>
                     <td>
-                        <p-tag [value]="getNombrePrioridad(task.tarea.idPrioridad)" [severity]="getSeverityPrioridad(task.tarea.idPrioridad)"></p-tag>
+                        <p-tag [value]="task.prioridad.nombre" [severity]="task.prioridad.severity"></p-tag>
                     </td>
                     <td>
-                        <p-tag [value]="getNombreEstado(task.tarea.idEstado)" [severity]="getSeverityEstado(task.tarea.idEstado)"></p-tag>
+                        <p-tag [value]="task.estado.nombre" [severity]="task.estado.severity"></p-tag>
+                    </td>
+                    <td>
+                        <p-button icon="pi pi-sync" severity="success" [outlined]="true" (click)="activarTarea(task)"/>
                     </td>
                 </tr>
             </ng-template>
@@ -158,15 +162,17 @@
 </p-dialog>
 
 
-<!--
-<p-dialog [contentStyle]="{'overflow': 'auto', 'padding': '0'}" styleClass="element-form custom-dialog" *ngIf="showTask" [header]="actionEditarCrud ? 'EDITAR TAREA' : 'AGREGAR TAREA'" [modal]="true" [(visible)]="showTask" [style]="{ width: '32rem' }"
-    [draggable]="false" [resizable]="false" [position]="'top'">
+
+<p-dialog [contentStyle]="{'overflow': 'auto', 'padding': '0'}" styleClass="element-form custom-dialog" *ngIf="showTask"
+    [header]="actionEditarCrud ? 'EDITAR TAREA' : 'AGREGAR TAREA'" [modal]="true" [(visible)]="showTask"
+    [style]="{ width: '28rem' }" [draggable]="false" [resizable]="false" [position]="'top'">
     <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
         <div class="container-fluid w-full container-modal">
             <div class="row">
                 <div class="col-12">
                     <label htmlFor="titulo">Título</label>
-                    <input pInputText type="text" id="titulo" formControlName="titulo" class="p-inputtext-sm" placeholder="Título" [style]="{ width: '450px' }" />
+                    <input pInputText type="text" id="titulo" formControlName="titulo" class="p-inputtext-sm"
+                        placeholder="Título" [style]="{ width: '380px' }" />
                     <small class="p-error" *ngIf="taskForm.get('titulo')?.invalid && taskForm.get('titulo')?.touched">
                         El título es requerido
                     </small>
@@ -174,63 +180,78 @@
 
                 <div class="col-12">
                     <label htmlFor="descripcion">Descripción</label>
-                    <textarea rows="5" cols="30" formControlName="descripcion" pInputTextarea [style]="{ width: '450px' }"></textarea>
-                    <small class="p-error" *ngIf="taskForm.get('descripcion')?.invalid && taskForm.get('descripcion')?.touched">
+                    <textarea rows="5" cols="30" formControlName="descripcion" pInputTextarea
+                        [style]="{ width: '380px' }"></textarea>
+                    <small class="p-error"
+                        *ngIf="taskForm.get('descripcion')?.invalid && taskForm.get('descripcion')?.touched">
                         La descripción es requerida
                     </small>
                 </div>
 
                 <div class="col-12">
                     <label htmlFor="fechaVencimiento">Fecha de Vencimiento</label>
-                    <p-calendar formControlName="fechaVencimiento" styleClass="element-form" [style]="{ width: '450px' }" appendTo="body" placeholder="Seleccione una fecha"></p-calendar>
-                    <small class="p-error" *ngIf="taskForm.get('fechaVencimiento')?.invalid && taskForm.get('fechaVencimiento')?.touched">
+                    <p-calendar formControlName="fechaVencimiento" styleClass="element-form"
+                        [style]="{ width: '380px' }" appendTo="body" placeholder="Seleccione una fecha" [minDate]="minDate"></p-calendar>
+                    <small class="p-error"
+                        *ngIf="taskForm.get('fechaVencimiento')?.invalid && taskForm.get('fechaVencimiento')?.touched">
                         La fecha de vencimiento es requerida
                     </small>
                 </div>
 
                 <div class="col-12">
                     <label htmlFor="prioridad">Prioridad</label>
-                    <p-dropdown [formGroup]="taskForm" formControlName="prioridad" [options]="listPrioridades" [(ngModel)]="selectedPrioridad.id" optionLabel="nombre" optionValue="id" [filter]="true" filterBy="nombre" [showClear]="true" placeholder="Seleccione la prioridad"
-                        appendTo="body" [style]="{ width: '450px' }" [autoDisplayFirst]="false">
+                    <p-dropdown [formGroup]="taskForm" formControlName="prioridad" [options]="listPrioridades"
+                        [(ngModel)]="selectedPrioridad.id" optionLabel="nombre" optionValue="id" [filter]="true"
+                        filterBy="nombre" [showClear]="true" placeholder="Seleccione la prioridad" appendTo="body"
+                        [style]="{ width: '380px' }" [autoDisplayFirst]="false">
 
-                     
+
                         <ng-template pTemplate="selectedItem" let-prioridad>
                             <div class="flex align-items-center" *ngIf="prioridad?.nombre">
-                                <p-tag [severity]="prioridad.id === 3 ? 'danger' : prioridad.id === 2 ? 'warning' : 'success'" [value]="prioridad.nombre">
-                                </p-tag>
+                                <p-tag [value]="prioridad.nombre" [severity]="prioridad.severity"></p-tag>
                             </div>
                         </ng-template>
 
-                     
+
                         <ng-template let-prioridad pTemplate="item">
                             <div class="flex align-items-center" *ngIf="prioridad?.nombre">
-                                <p-tag [severity]="prioridad.id === 3 ? 'danger' : prioridad.id === 2 ? 'warning' : 'success'" [value]="prioridad.nombre">
-                                </p-tag>
+
+                                <p-tag [value]="prioridad.nombre" [severity]="prioridad.severity"></p-tag>
+
+
                             </div>
                         </ng-template>
                     </p-dropdown>
-                    <small class="p-error" *ngIf="taskForm.get('prioridad')?.invalid && taskForm.get('prioridad')?.touched">
+                    <small class="p-error"
+                        *ngIf="taskForm.get('prioridad')?.invalid && taskForm.get('prioridad')?.touched">
                         La prioridad es requerida
                     </small>
                 </div>
                 <div class="col-12">
                     <label htmlFor="estado">Estado</label>
-                    <p-dropdown [formGroup]="taskForm" formControlName="estado" [options]="listEstados" [(ngModel)]="selectedEstado.id" optionLabel="nombre" optionValue="id" [filter]="true" filterBy="nombre" [showClear]="true" placeholder="Seleccione el estado" appendTo="body"
-                        [style]="{ width: '450px' }" [autoDisplayFirst]="false">
+                    <p-dropdown [formGroup]="taskForm" formControlName="estado" [options]="listEstados"
+                        [(ngModel)]="selectedEstado.id" optionLabel="nombre" optionValue="id" [filter]="true"
+                        filterBy="nombre" [showClear]="true" placeholder="Seleccione el estado" appendTo="body"
+                        [style]="{ width: '380px' }" [autoDisplayFirst]="false">
 
-                     
+
                         <ng-template pTemplate="selectedItem" let-estado>
                             <div class="flex align-items-center" *ngIf="estado?.nombre">
-                                <p-tag [severity]="getSeverity(estado.id)" [value]="estado.nombre">
+
+                                <p-tag [severity]="estado.severity" [value]="estado.nombre">
                                 </p-tag>
+
                             </div>
                         </ng-template>
 
-                     
+
                         <ng-template let-estado pTemplate="item">
                             <div class="flex align-items-center" *ngIf="estado?.nombre">
-                                <p-tag [severity]="getSeverity(estado.id)" [value]="estado.nombre">
+
+                                <p-tag [severity]="estado.severity" [value]="estado.nombre">
                                 </p-tag>
+
+
                             </div>
                         </ng-template>
                     </p-dropdown>
@@ -241,8 +262,10 @@
 
                 </div>
                 <div class="col-12 d-flex flex-row" style="gap: 10px;">
-                    <p-button type="button" (click)="onCancel()" label="Cancelar" [outlined]="true" severity="secondary"></p-button>
-                    <p-button type="submit" [label]="actionEditarCrud ? 'Editar' : 'Guardar'" [raised]="true" [severity]="actionEditarCrud ? 'warning' : 'success'" [disabled]="!taskForm.valid">
+                    <p-button type="button" (click)="onCancel()" label="Cancelar" [outlined]="true"
+                        severity="secondary"></p-button>
+                    <p-button type="submit" [label]="actionEditarCrud ? 'Editar' : 'Guardar'" [raised]="true"
+                        [severity]="actionEditarCrud ? 'warning' : 'success'" [disabled]="!taskForm.valid">
                     </p-button>
                 </div>
             </div>
@@ -250,4 +273,3 @@
         </div>
     </form>
 </p-dialog>
--->

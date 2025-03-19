@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { EstadoResponse } from '../../../application/dtos/response/estado-response';
 import { GestionTareasResponse } from '../../../application/dtos/response/gestion-tareas-response';
 import { PrioridadResponse } from '../../../application/dtos/response/prioridad-response';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { TareaRepositorio } from '../../../infrastructure/adapters/tarea.repository';
 import { ReferenceDataRepository } from '../../../infrastructure/adapters/reference-data.repository';
 import { TareaRequest } from '../../../application/dtos/request/tarea-request.model';
@@ -19,7 +19,7 @@ export class TareasComponent {
 
   constructor(private tareaRepository: TareaRepositorio, private cdr: ChangeDetectorRef,
     private messageService: MessageService, private referenceDataRepository: ReferenceDataRepository, private fb: FormBuilder,
-    private router: Router) {
+    private router: Router,private confirmationService: ConfirmationService) {
     this.taskForm = this.fb.group({
       idTarea: [],
       titulo: ['', [Validators.required]],
@@ -28,7 +28,7 @@ export class TareasComponent {
       prioridad: [null, [Validators.required]],
       estado: [null, [Validators.required]]
     });
-}
+  }
 
   public listTask: GestionTareasResponse[] = []
   public listHistoryTask: GestionTareasResponse[] = [];
@@ -61,14 +61,14 @@ export class TareasComponent {
     return name;
   }
 
-
+ public minDate: Date = new Date();
   async ngOnInit() {
-    // console.log('3. NgOnInit - Después del constructor');
     await this.getTasks();
+    this.minDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() + 1);
   }
 
   ngAfterViewInit(): void {
-    // console.log('4. NgAfterViewInit - Después de inicializar la vista');
     this.cdr.detectChanges();
 
   }
@@ -90,11 +90,12 @@ export class TareasComponent {
         titulo: this.taskForm.get('titulo')?.value,
         descripcion: this.taskForm.get('descripcion')?.value,
         fechaVencimiento: this.taskForm.get('fechaVencimiento')?.value,
-        idEstado: this.taskForm.get('estado')?.value?.id || 1,
-        idPrioridad: this.taskForm.get('prioridad')?.value?.id,
+        idEstado: this.taskForm.get('estado')?.value,
+        idPrioridad: this.taskForm.get('prioridad')?.value,
         createAt: new Date(),
         updateAt: new Date()
       };
+      console.log("value form : "+JSON.stringify(this.taskForm.getRawValue()))
       this.createTask(task);
       if (this.actionEditarCrud) {
         // Lógica de edición
@@ -121,6 +122,7 @@ export class TareasComponent {
     this.selectedEstado = estadoEncontrado ?? new EstadoResponse();
     this.taskForm.get('estado')?.setValue(estadoEncontrado);
     this.taskForm.get('estado')?.disable();
+    console.log("formulario : "+this.taskForm.getRawValue())
     this.cdr.detectChanges();
   }
 
@@ -150,8 +152,8 @@ export class TareasComponent {
     this.actionEditarCrud = true;
     this.cdr.detectChanges();
     this.showTask = true;
-   
-  
+
+
   }
 
 
@@ -159,7 +161,7 @@ export class TareasComponent {
     await this.getAllPrioridades();
     await this.getAllEstados();
     await this.getHistoyTasks();
-    this.showHistoryTask=true;
+    this.showHistoryTask = true;
   }
 
   onCancel() {
@@ -170,17 +172,18 @@ export class TareasComponent {
 
   async createTask(task: TareaRequest): Promise<void> {
     try {
+      console.log("Datos rechazados :: "+JSON.stringify(task))
       const response = await this.tareaRepository.insert(task);
-      
+       console.log("respuesta del insert : "+JSON.stringify(response))
       if (response.error) {
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
           detail: response.error.description || 'Error al crear la tarea'
         });
         return;
       }
-      
+
       this.messageService.add({
         severity: 'success',
         summary: 'Éxito',
@@ -192,7 +195,7 @@ export class TareasComponent {
       this.showTask = false;
 
       // Recargar datos o actualizar vista
-     
+
 
     } catch (error) {
       console.error('Error al crear la tarea:', error);
@@ -205,10 +208,26 @@ export class TareasComponent {
   }
 
 
-  async activarTarea(idTarea: number): Promise<void> {
+
+  async armarJsonTarea(gestion:GestionTareasResponse) {
+    const tareaRequest: TareaRequest = {
+        id: gestion.idTarea,
+        titulo: gestion.tituloTarea, 
+        descripcion: gestion.descripcionTarea, 
+        idEstado: gestion.estado?.id,
+        idPrioridad: gestion.prioridad?.id, 
+        fechaVencimiento: this.minDate,
+        createAt: gestion.createAt,
+        updateAt: new Date()
+    };
+    await this.activarTarea(tareaRequest);
+}
+
+  async activarTarea(tareaRequest: TareaRequest): Promise<void> {
     try {
-      const response = await this.tareaRepository.activarById(idTarea, 1); // Asumiendo que 1 es el ID del estado activo
-      
+      console.log("restaurar : "+JSON.stringify(tareaRequest));
+      const response = await this.tareaRepository.activarById(tareaRequest);
+
       if (response.error) {
         this.messageService.add({
           severity: 'error',
@@ -237,6 +256,26 @@ export class TareasComponent {
       });
     }
   }
+
+
+
+  async confirmarDelete(tarea: GestionTareasResponse) {
+    this.confirmationService.confirm({
+        message: `¿Deseas eliminar la tarea "${tarea.tituloTarea}"?`,
+        header: 'Confirmar Eliminación',
+        icon: 'pi pi-info-circle',
+        acceptButtonStyleClass: "p-button-danger p-button-text",
+        rejectButtonStyleClass: "p-button-text p-button-text",
+        acceptIcon: "none",
+        rejectIcon: "none",
+        accept: async () => {
+            await this.deleteTask(tarea?.idTarea ?? 0);
+        },
+        reject: () => {
+            /**/
+        }
+    });
+}
 
 
   async deleteTask(id: number): Promise<void> {
@@ -306,7 +345,7 @@ export class TareasComponent {
 
   async getHistoyTasks(): Promise<void> {
     try {
-      const response = await this.tareaRepository.gestionHistoricoTareas();
+      const response = await this.tareaRepository.getAllHistorico();
       if (response.error && response.error.code == "NO_CONTENT") {
         this.messageService.add({
           severity: 'warn', summary: 'Warning',
@@ -323,7 +362,7 @@ export class TareasComponent {
         this.listHistoryTask = [];
         return;
       }
-      console.log("historico de imprimir : "+JSON.stringify(response.data))
+      console.log("historico de imprimir : " + JSON.stringify(response.data))
       this.listHistoryTask = response.data;
       this.reloadPage()
 
@@ -342,7 +381,7 @@ export class TareasComponent {
   async getAllPrioridades(): Promise<void> {
     try {
       const response = await firstValueFrom(this.referenceDataRepository.getAllPrioridades());
-      if (response && response.meta?.statusCode!=200) {
+      if (response && response.meta?.statusCode != 200) {
         this.messageService.add({
           severity: 'warn', summary: 'Warning',
           detail: response?.error?.description || 'Error desconocido'
@@ -374,7 +413,7 @@ export class TareasComponent {
   async getAllEstados(): Promise<void> {
     try {
       const response = await firstValueFrom(this.referenceDataRepository.getAllEstados());
-      if (response.error && response.meta?.statusCode!=200) {
+      if (response.error && response.meta?.statusCode != 200) {
         this.messageService.add({
           severity: 'warn', summary: 'Warning',
           detail: response.error.description || 'Error desconocido'

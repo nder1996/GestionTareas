@@ -10,28 +10,15 @@ namespace gestion_tareas.DBContext
         }
 
         // ENTIDADES DEFINIDAS
-         public DbSet<Models.Auditoria> Auditoria { get; set; }
          public DbSet<Models.Estado> Estado { get; set; }
         public DbSet<Models.Prioridad> Prioridad { get; set; }
         public DbSet<Models.Tarea> Tarea { get; set; }
-        public DbSet<Models.TareaXAuditoria> TareaXAuditoria { get; set; }
+
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuración de relaciones
-            modelBuilder.Entity<TareaXAuditoria>(entity =>
-            {
-                entity.HasOne(ta => ta.Tarea)
-                    .WithMany()
-                    .HasForeignKey("TareaId")
-                    .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(ta => ta.Auditoria)
-                    .WithMany()
-                    .HasForeignKey("AuditoriaId")
-                    .OnDelete(DeleteBehavior.Restrict);
-            });
 
             modelBuilder.Entity<Models.Estado>().HasData(
                 new Models.Estado { Id = 1, nombre = "Pendiente", severity = "warning", estado = "A" },
@@ -45,36 +32,13 @@ namespace gestion_tareas.DBContext
                 new Models.Prioridad { Id = 3, nombre = "Baja", severity = "success", estado = "A" }
             );
 
-            modelBuilder.Entity<Models.Auditoria>().HasData(
-            new Models.Auditoria
-            {
-                Id = 1,
-                Accion = "Crear",
-                CreateAt = new DateTime(2025, 1, 15, 10, 30, 0),
-                CreadoPor = "admin@sistema.com"
-            },
-            new Models.Auditoria
-            {
-                Id = 2,
-                Accion = "Actualizar",
-                CreateAt = new DateTime(2025, 2, 3, 14, 45, 0),
-                CreadoPor = "supervisor@sistema.com"
-            },
-            new Models.Auditoria
-            {
-                Id = 3,
-                Accion = "Eliminar",
-                CreateAt = new DateTime(2025, 2, 20, 9, 15, 0),
-                CreadoPor = "admin@sistema.com"
-            }
-            );
-
             modelBuilder.Entity<Models.Tarea>().HasData(
             new Models.Tarea
             {
                 Id = 1,
                 titulo = "Implementar autenticación",
                 descripcion = "Desarrollar sistema de login con JWT",
+                estado = "A",
                 idEstado = 2,
                 idPrioridad = 1,
                 fechaVencimiento = new DateTime(2025, 4, 15),
@@ -86,7 +50,8 @@ namespace gestion_tareas.DBContext
                 Id = 2,
                 titulo = "Diseñar base de datos",
                 descripcion = "Crear diagrama ER y scripts SQL",
-                idEstado = 3,
+                estado = "A",
+                idEstado = 2,
                 idPrioridad = 1,
                 fechaVencimiento = new DateTime(2025, 3, 25),
                 create_at = new DateTime(2025, 3, 5),
@@ -97,45 +62,41 @@ namespace gestion_tareas.DBContext
                 Id = 3,
                 titulo = "Implementar API REST",
                 descripcion = "Desarrollar endpoints para CRUD de tareas",
+                estado = "A",
+                idEstado = 1,
+                idPrioridad = 2,
+                fechaVencimiento = new DateTime(2025, 4, 30),
+                create_at = new DateTime(2025, 3, 12),
+                update_at = null
+            },
+            new Models.Tarea
+            {
+                Id = 4,
+                titulo = "Implementar API REST",
+                descripcion = "Desarrollar endpoints para CRUD de tareas",
+                estado = "A",
+                idEstado = 3,
+                idPrioridad = 3,
+                fechaVencimiento = new DateTime(2025, 4, 30),
+                create_at = new DateTime(2025, 3, 12),
+                update_at = null
+            },
+            new Models.Tarea
+            {
+                Id = 5,
+                titulo = "Implementar API REST",
+                descripcion = "Desarrollar endpoints para CRUD de tareas",
+                estado = "I",
                 idEstado = 1,
                 idPrioridad = 2,
                 fechaVencimiento = new DateTime(2025, 4, 30),
                 create_at = new DateTime(2025, 3, 12),
                 update_at = null
             }
+
         );
 
-            modelBuilder.Entity<TareaXAuditoria>().HasData(
-                new 
-                { 
-                    Id = 1,
-                    TareaId = 1,
-                    AuditoriaId = 1,
-                    create_at = new DateTime(2025, 3, 1)
-                },
-                new 
-                {
-                    Id = 2,
-                    TareaId = 2,
-                    AuditoriaId = 2,
-                    create_at = new DateTime(2025, 3, 5)
-                },
-                new 
-                {
-                    Id = 3,
-                    TareaId = 3,
-                    AuditoriaId = 3,
-                    create_at = new DateTime(2025, 3, 12)
-                }
-            );
 
-            modelBuilder.Entity<TareaXAuditoria>()
-                .Navigation(t => t.Auditoria)
-                .AutoInclude();
-
-            modelBuilder.Entity<TareaXAuditoria>()
-                .Navigation(t => t.Tarea)
-                .AutoInclude();
         }
     }
 }
