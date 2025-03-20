@@ -8,7 +8,7 @@ namespace gestion_tareas.Service.Interfaces
     {
         ApiResponse<List<GestionTareasResponse>> getAllGestionTareas();
         ApiResponse<string> inactivateById(int id);
-        ApiResponse<string> activateTaskById(TareaRequest tareaRequest);
+        ApiResponse<string> activateTaskById(int idTarea);
         ApiResponse<string> saveUpdateTask(TareaRequest tareaRequest);
 
         ApiResponse<List<GestionTareasResponse>> getAllHistorico();

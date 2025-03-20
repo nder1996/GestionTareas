@@ -180,11 +180,11 @@ namespace gestion_tareas.Service.Implementations
         }
 
 
-        public ApiResponse<string> activateTaskById(TareaRequest tareaRequest)
+        public ApiResponse<string> activateTaskById(int idTarea)
         {
             try
             {
-                if (tareaRequest != null)
+                if (idTarea == null)
                 {
                     return ResponseApiBuilderService.ErrorResponse<string>(
                         400,
@@ -193,7 +193,7 @@ namespace gestion_tareas.Service.Implementations
                     );
                 }
 
-                int result = _tareaRepository.ActivarTask(tareaRequest);
+                int result = _tareaRepository.ActivarTask(idTarea);
 
                 if (result < 1)
                 {

@@ -122,7 +122,7 @@ export class TareasComponent {
     this.selectedEstado = estadoEncontrado ?? new EstadoResponse();
     this.taskForm.get('estado')?.setValue(estadoEncontrado);
     this.taskForm.get('estado')?.disable();
-    console.log("formulario : "+this.taskForm.getRawValue())
+    //console.log("formulario : "+this.taskForm.getRawValue())
     this.cdr.detectChanges();
   }
 
@@ -137,7 +137,7 @@ export class TareasComponent {
       this.taskForm.get('estado')?.enable();
       this.selectedPrioridad = task.prioridad ?? new PrioridadResponse();
       this.selectedEstado = task.estado ?? new EstadoResponse();
-      console.log('modal editar : ' + JSON.stringify(this.selectedPrioridad))
+      //console.log('modal editar : ' + JSON.stringify(this.selectedPrioridad))
       this.taskForm.patchValue({
         idTarea: task.idTarea,
         titulo: task.tituloTarea,
@@ -172,9 +172,9 @@ export class TareasComponent {
 
   async createTask(task: TareaRequest): Promise<void> {
     try {
-      console.log("Datos rechazados :: "+JSON.stringify(task))
+      //console.log("Datos rechazados :: "+JSON.stringify(task))
       const response = await this.tareaRepository.insert(task);
-       console.log("respuesta del insert : "+JSON.stringify(response))
+       //console.log("respuesta del insert : "+JSON.stringify(response))
       if (response.error) {
         this.messageService.add({
           severity: 'error',
@@ -225,9 +225,8 @@ export class TareasComponent {
 
   async activarTarea(tareaRequest: TareaRequest): Promise<void> {
     try {
-      console.log("restaurar : "+JSON.stringify(tareaRequest));
-      const response = await this.tareaRepository.activarById(tareaRequest);
-
+     // console.log("restaurar : "+JSON.stringify(tareaRequest));
+      const response = await this.tareaRepository.activarById(tareaRequest.id ?? 0);
       if (response.error) {
         this.messageService.add({
           severity: 'error',
@@ -362,7 +361,7 @@ export class TareasComponent {
         this.listHistoryTask = [];
         return;
       }
-      console.log("historico de imprimir : " + JSON.stringify(response.data))
+      //console.log("historico de imprimir : " + JSON.stringify(response.data))
       this.listHistoryTask = response.data;
       this.reloadPage()
 

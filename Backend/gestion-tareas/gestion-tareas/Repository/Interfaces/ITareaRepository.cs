@@ -12,6 +12,6 @@ namespace gestion_tareas.Repository.Interfaces
         int InsertTask(Tarea tarea);
         int UpdateTask(Tarea tarea);
         int InactivarTask(int id);
-        int ActivarTask(TareaRequest tareaRequest);
+        int ActivarTask(int idTarea);
     }
 }

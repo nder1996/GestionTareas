@@ -35,11 +35,20 @@ export class TareaRepositorio implements ITareaRepositorio {
         );
     }
 
+    async activarById(id: number): Promise<ApiResponse<string>> {
+        return firstValueFrom(
+            this.http.put<ApiResponse<string>>(`${this.apiUrl}/activate/${id}`, {})
+        );
+    }
+
+
+
+    /*
     async activarById(tareaRequest: TareaRequest): Promise<ApiResponse<string>> {
         return firstValueFrom(
             this.http.put<ApiResponse<string>>(`${this.apiUrl}/activate`, tareaRequest)
         );
-    }
+    }*/
 
     async insert(tareaRequest: TareaRequest): Promise<ApiResponse<string>> {
         return firstValueFrom(

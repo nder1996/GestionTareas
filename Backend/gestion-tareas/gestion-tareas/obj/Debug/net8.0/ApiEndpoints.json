@@ -41,15 +41,15 @@
   },
   {
     "ContainingType": "gestion_tareas.Controllers.TareasController",
-    "Method": "inactivarTask",
-    "RelativePath": "api/Tareas/activate",
+    "Method": "activateTas",
+    "RelativePath": "api/Tareas/activate/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "gestion_tareas.DTOs.Request.TareaRequest",
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

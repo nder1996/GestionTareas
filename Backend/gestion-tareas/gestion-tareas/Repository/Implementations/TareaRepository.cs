@@ -20,16 +20,12 @@ namespace gestion_tareas.Repository.Implementations
         }
 
 
-        public int ActivarTask(TareaRequest tareaRequest)
+        public int ActivarTask(int idTarea)
         {
-            /*var tarea = _context.Tarea.Find(id);
-            if (tarea == null)
-            {
-                return 0;
-            }*/
-            tareaRequest.estado = "A";
-            tareaRequest.idEstado = 1;
-            tareaRequest.update_at = DateTime.Now;
+            var tarea = _context.Tarea.Find(idTarea);
+            tarea.estado = "A";
+            tarea.idEstado = 1;
+            tarea.update_at = DateTime.Now;
             _context.SaveChanges();
             return 1;
         }

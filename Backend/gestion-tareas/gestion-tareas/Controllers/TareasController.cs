@@ -46,10 +46,10 @@ namespace gestion_tareas.Controllers
             return StatusCode(response.Meta.StatusCode ?? 200, response);
         }
 
-        [HttpPut("activate")]
-        public IActionResult inactivarTask([FromBody] TareaRequest request)
+        [HttpPut("activate/{id}")]
+        public IActionResult activateTas(int id)
         {
-            ApiResponse<String> response = _tareaService.activateTaskById(request);
+            ApiResponse<String> response = _tareaService.activateTaskById(id);
             return StatusCode(response.Meta.StatusCode ?? 200, response);
         }
 

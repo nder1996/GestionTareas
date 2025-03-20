@@ -1,16 +1,18 @@
 <div class="container-fluid py-4">
+ 
     <!-- Header Actions -->
-    <div class="row mb-4">
-        <div class="col-12 col-md-6 order-2 order-md-1 text-center text-md-start mb-3 mb-md-0">
-            <p-button label="AGREGAR TAREA" icon="pi pi-file-plus" [outlined]="true" severity="success"
-                (click)="cargarModalAgregar()" class="w-100 w-md-auto shadow-sm">
-            </p-button>
-        </div>
-        <div class="col-12 col-md-6 order-1 order-md-2 text-center text-md-end mb-3 mb-md-0">
+    <div class="row">
+        <div class="col-12 text-end">
             <p-button label="HISTORICO DE TAREAS" icon="pi pi-history" styleClass="p-button-raised" [outlined]="true"
                 severity="help" (onClick)="dialogHistoryTask()" class="w-100 w-md-auto shadow-sm">
             </p-button>
         </div>
+        <div class="col-12 text-center" style="margin: 1rem;">
+            <p-button label="AGREGAR TAREA" icon="pi pi-file-plus" [outlined]="true" severity="success"
+                (click)="cargarModalAgregar()" class="w-100 w-md-auto shadow-sm">
+            </p-button>
+        </div>
+  
     </div>
 
     <!-- Table Container -->
@@ -153,7 +155,7 @@
                         <p-tag [value]="task.estado.nombre" [severity]="task.estado.severity"></p-tag>
                     </td>
                     <td>
-                        <p-button icon="pi pi-sync" severity="success" [outlined]="true" (click)="activarTarea(task)"/>
+                        <p-button icon="pi pi-sync" severity="success" [outlined]="true" (click)="armarJsonTarea(task)"/>
                     </td>
                 </tr>
             </ng-template>

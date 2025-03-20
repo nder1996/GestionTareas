@@ -4,6 +4,7 @@ export class TareaRequest {
       public titulo?: string,
       public descripcion?: string,
       public idEstado?: number,
+      public estado?: string,
       public idPrioridad?: number,
       public fechaVencimiento?: Date,
       public createAt?: Date,
