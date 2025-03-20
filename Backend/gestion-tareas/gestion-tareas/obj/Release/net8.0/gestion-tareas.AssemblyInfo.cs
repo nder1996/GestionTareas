@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("gestion-tareas")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b09eca52a57612053b2c862c5a71005a26fe8a97")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+63d411090575621b6fe014349a0e3dbd05f7e69f")]
 [assembly: System.Reflection.AssemblyProductAttribute("gestion-tareas")]
 [assembly: System.Reflection.AssemblyTitleAttribute("gestion-tareas")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
