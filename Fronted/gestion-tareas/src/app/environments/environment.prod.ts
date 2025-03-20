@@ -1,6 +1,6 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://api.miapp.com/api',
-    apiKey: 'prod-api-key',
-    enableDebug: false
-  };
+  production: true,
+  apiUrl: 'https://info-colombia.onrender.com/api',
+  apiKey: 'prod-api-key',
+  enableDebug: false
+};

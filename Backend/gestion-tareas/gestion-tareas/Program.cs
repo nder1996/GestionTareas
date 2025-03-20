@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Angular",
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200")
+            policy.WithOrigins("http://localhost:4200", "https://sparkling-rugelach-02029e.netlify.app")
                   .AllowAnyMethod()
                   .AllowAnyHeader();
         });

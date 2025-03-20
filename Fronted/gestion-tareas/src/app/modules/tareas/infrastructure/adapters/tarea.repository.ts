@@ -6,7 +6,11 @@ import { TareaModel } from "src/app/core/models/TareaModel";
 import { GestionTareasResponse } from "../../application/dtos/response/gestion-tareas-response";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "src/app/environments/environment";
+import { environment } from "src/environments/environment.prod";
+
+
+
+
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +18,10 @@ import { environment } from "src/app/environments/environment";
 export class TareaRepositorio implements ITareaRepositorio {
     private apiUrl = `${environment.apiUrl}/Tareas`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+        //console.log('Current environment:', environment.environment);
+        console.log('API URL:', environment.apiUrl);
+    }
 
     async gestionTareas(): Promise<ApiResponse<GestionTareasResponse[]>> {
         return firstValueFrom(
