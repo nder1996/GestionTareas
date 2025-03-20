@@ -95,15 +95,3 @@ ng serve
 - **Backend**: Desplegado con Docker en Render
 - **Frontend**: Disponible en [Vercel](https://gestion-tareas-one.vercel.app)
 
-## 📸 Capturas de pantalla
-
-[Añadir capturas de pantalla de la aplicación aquí]
-
-## 🤝 Contribuir
-
-Las contribuciones son bienvenidas. Por favor, abra un issue o envíe un pull request para sugerir cambios o mejoras.
-
-## 📄 Licencia
-
-[Incluir información de licencia]
-
